@@ -8,6 +8,9 @@
       "@dtos/*": [
         "src/dtos/*"
       ],
+      "@assets/*": [
+        "src/assets/*"
+      ],
       "@components/*": [
         "./src/components/*"
       ],
@@ -26,11 +29,17 @@
       "@contexts/*": [
         "./src/contexts/*"
       ],
+      "@hooks/*": [
+        "./src/hooks/*"
+      ],
       "@routes/*": [
         "./src/routes/*"
       ],
       "@libs/*": [
         "src/libs/*"
+      ],
+      "@styles/*": [
+        "src/styles/*"
       ]
     }
   }

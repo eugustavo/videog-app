@@ -1,19 +1,19 @@
 import { useRef, useState } from "react";
-import { Dimensions, Pressable, Text, View } from "react-native";
-import { Video as VideoPlayer, ResizeMode, AVPlaybackStatus } from "expo-av";
+import { Dimensions, Pressable, View } from "react-native";
+import { Video as VideoPlayer, ResizeMode } from "expo-av";
+
+import { FeedDTO } from "@dtos/FeedDTO";
+
+import { Author } from "./Author";
+import { Details } from "./Details";
+import { Actions } from "./Actions";
 
 interface VideoProps {
-  data: {
-    id: string;
-    user: {
-      name: string;
-      imageUri: string;
-    };
-    videoUri: string;
-  }
+  data: FeedDTO
 }
 
 const { height: heightScreen, width: widthScreen } = Dimensions.get('screen');
+const BOTTOM_BAR_AND_STATUS_BAR_HEIGHT = 160;
 
 export function Video({ data }: VideoProps) {
   const [videoStatus, setVideoStatus] = useState({} as any);
@@ -27,44 +27,32 @@ export function Video({ data }: VideoProps) {
     videoRef.current?.playAsync();
   }
 
-
   return (
     <Pressable onPress={togglePlay}>
-      <View className="flex flex-col absolute px-4 bottom-10 z-10">
-        <Text
-          className="text-zinc-50 font-bold text-lg mb-1"
-          style={{
-            textShadowColor: 'rgba(0, 0, 0, 0.75)',
-            textShadowOffset: { width: -1, height: 1.8 },
-            textShadowRadius: 2
-          }}
-        >
-          {data.user.name}
-        </Text>
+      <View className="flex flex-col absolute px-4 bottom-[10px] z-10">
+        <Author userId={data.authorid} userName={data.authorname} userAvatar={data.authoravatar} />
+        <Details videoTitle={data.title} videoDescription={data.description} />
+      </View>
 
-        <Text
-          className="text-zinc-200" numberOfLines={2}
-          style={{
-            textShadowColor: 'rgba(0, 0, 0, 0.75)',
-            textShadowOffset: { width: -1, height: 1.8 },
-            textShadowRadius: 2
-          }}
-        >
-          Video gravado em um dia qualquer por ai, video gravado em um dia qualquer por ai, video gravado em um dia qualquer por ai, 
-        </Text>
+      <View className="flex flex-col absolute right-5 bottom-[60px] z-10">
+        <Actions videoId={data.id} videoUrl={data.video_url} />
       </View>
 
       <VideoPlayer
         ref={videoRef}
-        style={{ width: widthScreen, height: heightScreen }}
         source={{
-          uri: data.videoUri
+          uri: data.video_url
         }}
-        isLooping
         resizeMode={ResizeMode.COVER}
+        isLooping
         shouldPlay={false}
         isMuted={false}
         onPlaybackStatusUpdate={status => setVideoStatus(() => status)}
+        onLoad={() => {}}
+        style={{
+          width: widthScreen,
+          height: heightScreen - BOTTOM_BAR_AND_STATUS_BAR_HEIGHT,
+        }}
       />
     </Pressable>
   )
