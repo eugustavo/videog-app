@@ -11,7 +11,7 @@ export default function App() {
 
   return (
     <>
-      <StatusBar style='light' />
+      <StatusBar style='light' backgroundColor='#000' />
 
       <QueryClientProvider client={queryClient}>
         <AuthContextProvider>

@@ -112,7 +112,7 @@ export function VideoUpload() {
         </TouchableOpacity>
       </View>
 
-      <View className="flex flex-1 w-full items-center justify-end px-4">
+      <View className="flex flex-1 w-full items-center justify-end px-4 mb-2">
         <TouchableOpacity
           className="flex items-center w-full justify-center h-10 mt-6 border border-zinc-200 rounded-md"
           onPress={handleSendVideo}

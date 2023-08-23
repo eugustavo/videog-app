@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Dimensions, Pressable, View } from "react-native";
+import { Dimensions, Platform, Pressable, View } from "react-native";
 import { Video as VideoPlayer, ResizeMode } from "expo-av";
 
 import { FeedDTO } from "@dtos/FeedDTO";
@@ -19,6 +19,8 @@ export function Video({ data }: VideoProps) {
   const [videoStatus, setVideoStatus] = useState({} as any);
   const videoRef = useRef<VideoPlayer>(null);
 
+  const isAndroid = Platform.OS === 'android';
+
   function togglePlay() {
     if (videoStatus?.isPlaying) {
       return videoRef.current?.pauseAsync();
@@ -29,12 +31,12 @@ export function Video({ data }: VideoProps) {
 
   return (
     <Pressable onPress={togglePlay}>
-      <View className="flex flex-col absolute px-4 bottom-[10px] z-10">
+      <View className={`flex flex-col absolute px-4 ${isAndroid ? 'bottom-[20px]' : 'bottom-[10px]'} z-10`}>
         <Author userId={data.authorid} userName={data.authorname} userAvatar={data.authoravatar} />
         <Details videoTitle={data.title} videoDescription={data.description} />
       </View>
 
-      <View className="flex flex-col absolute right-5 bottom-[60px] z-10">
+      <View className={`flex flex-col absolute right-5 ${isAndroid ? 'bottom-[80px]' : 'bottom-[60px]'} z-10`}>
         <Actions videoId={data.id} videoUrl={data.video_url} />
       </View>
 
