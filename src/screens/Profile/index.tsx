@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FlatList, Image, Text, TouchableOpacity } from "react-native";
+import { FlatList, Image, Text, TouchableOpacity, BackHandler } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { randomUUID } from "expo-crypto";
@@ -60,6 +60,8 @@ export function Profile() {
 
     goBack();
     setOptions({ tabBarStyle: tabBar })
+
+    return true;
    }
 
   async function handleFollow() {
@@ -86,6 +88,8 @@ export function Profile() {
       })
     }
   }, [params?.userId, isFocused])
+
+  BackHandler.addEventListener('hardwareBackPress', handleGoBack)
 
   return (
     <SafeAreaView className="flex flex-1">
